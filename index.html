@@ -1,41 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>AWS App</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body {
-                background-color: #efefef;
-            }
-            button {
-                background-color: white;
-                border: 2px solid;
-                padding: 10px 20px;
-                font-weight: 700;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: red;
-                border-color: red;
-                color: white;
-            }
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
-        
-        <h1>Akcje</h1>
-        
-        <button id="testRegister">Register</button>
-        <button id="testLogin">Log me in!</button>
-        <button id="testConfirm">Confirm!</button>
-        
-        <button id="listContents">List content!</button>
-        
-        <input id="files" type="file" multiple=true/>
-        <button id="testUpload">Upload</button>
-        
+
+        <div id="app">
+            <div class="container">
+
+                <div class="header">
+                    <h1>Animation Creator</h1>
+                    <h2 v-text="message"></h2>
+                    <div class="nav">
+
+                        <button id="testRegister">Register</button>
+                        <button id="testLogin">Log me in!</button>
+                        <button id="testConfirm">Confirm!</button>
+                        <button id="listContents">List content!</button>
+
+                    </div>
+                </div>
+
+                <div class="main">
+
+                    <input id="files" type="file" multiple=true/>
+                    <button id="testUpload">Upload</button>
+
+                </div>
+
+                <div class="footer">
+                    Copyright 2019
+                </div>
+
+            </div>
+        </div>
         
         <script src="main.bundle.js"></script>
+
     </body>
 </html>

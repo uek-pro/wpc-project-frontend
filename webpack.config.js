@@ -22,8 +22,13 @@ module.exports = {
         overlay: true,
         hot: true
     },
+    resolve: {
+        alias: {
+          vue: 'vue/dist/vue.js'
+        }
+    },
     plugins: [
-        new CopyWebpackPlugin(['index.html']),
+        new CopyWebpackPlugin(['index.html', 'main.css']),
         new webpack.HotModuleReplacementPlugin()
     ]
 };
