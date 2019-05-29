@@ -17,18 +17,18 @@
                     <h2 v-text="message"></h2>
                     <div class="nav">
 
-                        <button id="testRegister">Register</button>
-                        <button id="testLogin">Log me in!</button>
-                        <button id="testConfirm">Confirm!</button>
-                        <button id="listContents">List content!</button>
+                        <button v-on:click="register()">Register</button>
+                        <button v-on:click="logIn()">Log me in!</button>
+                        <button v-on:click="confirm()">Confirm!</button>
+                        <button v-on:click="listAll()">List content!</button>
 
                     </div>
                 </div>
 
                 <div class="main">
 
-                    <input id="files" type="file" multiple=true/>
-                    <button id="testUpload">Upload</button>
+                    <input type="file" @change="filesChanged" multiple/>
+                    <button v-on:click="sendOrder()">Send order</button>
 
                 </div>
 

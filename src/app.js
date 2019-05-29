@@ -4,6 +4,7 @@ import Vue from 'vue';
 
 import { poolData, identityPoolId, region, bucketRegion, bucketName, loginProviderName } from './env.js';
 import AuthFacade from './user/auth';
+import StorageFacade from './user/storage.js';
 
 
 
@@ -12,12 +13,10 @@ const creds = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: identityPoolId
 });
 
-const auth = new AuthFacade(userPool, creds);
-
 AWS.config.update({
     region: region,
     credentials: creds
-})
+});
 
 const s3 = new AWS.S3({
     apiVersion: '2006-03-01',
@@ -26,6 +25,9 @@ const s3 = new AWS.S3({
         Bucket: bucketName
     }
 });
+
+const auth = new AuthFacade(userPool, creds);
+const storage = new StorageFacade(s3);
 
 
 
@@ -48,36 +50,58 @@ const confirmRequest = {
 
 
 
-document.querySelector('#testRegister').addEventListener('click', () => {
-    auth.register(registerRequest)
-});
-
-document.querySelector('#testLogin').addEventListener('click', () => {
-    auth.logIn(loginRequest) ;
-});
-
-document.querySelector('#testConfirm').addEventListener('click', () => {
-    auth.confirm(confirmRequest);
-});
-
-document.querySelector('#listContents').addEventListener('click', () => {
-    s3.listObjects({}, (err, data) => {
-        if (err) {
-            alert(err.message);
-        } else {
-            console.log(data.Contents.map(item => item.Key));
-        }
-    });
-});
-
-
-
 new Vue({
 
     el: '#app',
 
     data: {
-        message: 'Hellow World!'
-    }
+
+        message: 'Hellow World!',
+        isLoggedIn: false,
+
+        order: {
+            order_id: '',
+            email: '',
+            photos: []
+        },
+
+        files: [],
+
+    },
+
+    methods: {
+
+        register: function() {
+            auth.register(registerRequest)
+        },
+
+        logIn: function() {
+            auth.logIn(loginRequest, (creds) => {
+                this.isLoggedIn = true,
+                this.email = creds //tmp
+            });
+        },
+
+        confirm: function() {
+            auth.confirm(confirmRequest);
+        },
+
+        listAll: function() {
+            storage.listAll();
+        },
+
+        filesChanged(e) {
+            this.files = [...e.target.files];
+            this.order.photos = this.files.map(x => x.name);
+        },
+
+        sendOrder() {
+            console.log(this.order);
+            // fetch('...').then(res => {
+            //     console.log(res);
+            // })
+        },
+
+    },
 
 });

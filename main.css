@@ -13,3 +13,9 @@ button:hover {
     border-color: red;
     color: white;
 }
+.container {
+    box-sizing: border-box;
+    width: 1200px;
+    margin: 60px auto;
+    padding: 1rem;
+}

@@ -9,7 +9,7 @@ export default class AuthFacade {
         this.creds = creds;
     }
 
-    logIn(request) {
+    logIn(request, successCallback) {
 
         const authenticationDetails = new AuthenticationDetails({
             Username: request.username,
@@ -23,7 +23,7 @@ export default class AuthFacade {
         
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: (result) => {
-                this.refreshCredentials()
+                this.refreshCredentials(successCallback);
             },
             onFailure: (err) => {
                 alert(err);
@@ -81,7 +81,7 @@ export default class AuthFacade {
         return this.creds.identityId;
     }
 
-    refreshCredentials()  {
+    refreshCredentials(successCallback)  {
         const cognitoUser = this.userPool.getCurrentUser();
     
         if (cognitoUser != null) {
@@ -98,6 +98,7 @@ export default class AuthFacade {
                 console.error(error);
             } else {
                 console.log('Successfully logged!');
+                successCallback(this.creds);
             }
         });
     }
