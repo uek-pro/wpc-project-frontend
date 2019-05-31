@@ -1,0 +1,26 @@
+.container {
+    box-sizing: border-box;
+    padding: 1rem;
+    margin-top: 20px;
+    width: 100%;
+
+    @include gt1200 {
+        margin: 40px auto 0;
+        width: 1200px;
+    }
+}
+
+.content {
+    display: flex;
+}
+
+.slogan {
+    color: $dark-color;
+    letter-spacing: -1px;
+}
+
+// .free-icon {
+//     &::before {
+//         content: ''
+//     }
+// }

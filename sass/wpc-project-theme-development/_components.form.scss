@@ -1,0 +1,36 @@
+.form-1 {
+    
+    font-size: 0.8rem;
+
+    > li {
+        margin-top: 1em;
+    }
+
+    label {
+        margin: 0 0 .25em 0;
+        display: block;
+
+        @extend %label-text-style;
+    }
+
+    .head {
+        @extend %label-text-style;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=email] {
+        // box-sizing: border-box;
+        padding: 8px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #cacaca;
+        font-family: $sans-serif-font;
+        font-size: 1em;
+        outline: none;
+    }
+
+    .half {
+        color: red;
+    }
+}

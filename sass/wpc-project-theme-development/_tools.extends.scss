@@ -1,0 +1,13 @@
+%label-text-style {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: $secondary-color;
+}
+
+%icon {
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
