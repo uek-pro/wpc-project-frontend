@@ -1,17 +1,52 @@
 .container {
     box-sizing: border-box;
     padding: 1rem;
-    margin-top: 20px;
+    margin-top: 30px;
     width: 100%;
 
+    position: relative;
+
     @include gt1200 {
-        margin: 40px auto 0;
+        margin: 60px auto 0;
         width: 1200px;
     }
 }
 
+.header, .footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 .6rem;
+}
+
+.main {
+    margin: 1rem 0 .6rem;
+    padding: 1rem;
+    border: 2px solid $accent-color;
+
+    background-color: $bg-color;
+    position: relative;
+}
+
 .content {
     display: flex;
+    justify-content: space-evenly;
+}
+
+.head {
+    text-align: center;
+    margin-bottom: 0.4em;
+}
+
+.box {
+    width: 100%;
+    margin: 1rem;
+    padding: 1.5rem 2rem;
+    border: 2px solid $primary-color;
+    position: relative;
+
+    &--half {
+        width: 460px;
+    }
 }
 
 .slogan {
@@ -19,8 +54,21 @@
     letter-spacing: -1px;
 }
 
-// .free-icon {
-//     &::before {
-//         content: ''
-//     }
-// }
+.free-icon {
+    &::before {
+        content: 'FREE';
+        position: absolute;
+        top: -1rem; //-.5rem
+        right: -1rem;
+        padding: 34px 11px;
+        border: 2px solid;
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        width: 64px;
+        transform: rotateZ(10deg);
+        color: $primary-color;
+        background-color: #efefef;
+    }
+}

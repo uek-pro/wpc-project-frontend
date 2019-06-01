@@ -2,12 +2,9 @@ html {
     font: $prime-font;
 }
 
-body {
-    background-color: $bg-color;
-}
-
 h1 {
     font-family: $serif-font;
+    font-size: 2rem;
 }
 
 h2, h3, h4, h5, h6 {
@@ -15,6 +12,10 @@ h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     font-weight: 300;
     letter-spacing: 1px;
+}
+
+h2 {
+    font-size: 1.3rem;
 }
 
 a {
@@ -27,6 +28,22 @@ a {
     }
 }
 
+input[type=text],
+input[type=password],
+input[type=email] {
+    box-sizing: border-box;
+    padding: 8px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #cacaca;
+    font-family: $sans-serif-font;
+    font-size: 1em;
+    outline: none;
+
+    margin-top: .2rem;
+    width: 100%;
+}
+
 button, input {
 
     &:focus {
@@ -34,16 +51,3 @@ button, input {
         background-color: $focus-color;
     }
 }
-
-// button {
-//     background-color: white;
-//     border: 2px solid;
-//     padding: 10px 20px;
-//     font-weight: 700;
-//     cursor: pointer;
-// }
-// button:hover {
-//     background-color: red;
-//     border-color: red;
-//     color: white;
-// }
