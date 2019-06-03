@@ -1,45 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>AWS App</title>
+        <title>AnimationCreator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="main.css">
+        <meta name="author" content="danbraj">
+
+        <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
+        <link rel="stylesheet" href="main.css" media="screen">
+        <script src="main.bundle.js" defer></script>
     </head>
     <body>
 
-        <div id="app">
-            <div class="container">
+        <div class="container" id="app" v-cloak>
 
-                <div class="header">
-                    <h1>Animation Creator</h1>
-                    <h2 v-text="message"></h2>
-                    <div class="nav">
+            <div class="header">
 
-                        <button v-on:click="register()">Register</button>
-                        <button v-on:click="logIn()">Log me in!</button>
-                        <button v-on:click="confirm()">Confirm!</button>
-                        <button v-on:click="listAll()">List content!</button>
-
-                    </div>
+                <div class="logo">
+                    <h1>AnimationCreator</h1>
+                    <p class="slogan">Create beautiful animations with the Animation Creator program.</p>
                 </div>
 
-                <div class="main">
+                <div class="mascot">    
 
-                    <input type="file" @change="filesChanged" multiple/>
-                    <button v-on:click="sendOrder()">Send order</button>
-
-                </div>
-
-                <div class="footer">
-                    Copyright 2019
                 </div>
 
             </div>
+
+            <div class="main">
+
+                <div class="flash" v-if="user.isFlashMessage">
+                    <svg class="icon"><use href="icons.defs.svg#i-info"></use></svg>
+                    <span class="flash__message">Wykonano pomyślnie</span>
+                    <a v-on:click="closeFlashMessage()">
+                        <div class="icon-btn icon-btn--checkbox">
+                            <svg class="icon-btn__icon"><use href="icons.defs.svg#i-close"></use></svg>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="content" v-if="!user.isLoggedIn">
+                    <div class="box box--half">
+
+                        <h2 class="head">Logowanie</h2>
+
+                        <ul class="form-1">
+
+                            <li>
+                                <label>
+                                    Login
+                                    <input type="text" name="login" v-model="form.login.login">
+                                </label>
+                            </li>
+                        
+                            <li>
+                                <label>
+                                    Password
+                                    <input type="password" name="password" v-model="form.login.pass">
+                                </label>
+                            </li>
+                            
+                            <li>
+                                <button class="btn" type="button" v-on:click="logIn()">Log me in</button>
+                            </li>
+
+                            <li v-if="user.isCodeRequired">
+                                <label>
+                                    Activation code
+                                    <input type="text" name="code" v-model="form.login.code">
+                                </label>
+                            </li>
+
+                            <li v-if="user.isCodeRequired">
+                                <button class="btn" type="button" v-on:click="confirm()">Activate account</button>
+                            </li>
+                        
+                        </ul>
+
+                    </div>
+                    <div class="box box--half free-icon">
+
+                        <h2 class="head">Rejestracja</h2>
+
+                        <ul class="form-1">
+
+                            <li>
+                                <label>
+                                    Login
+                                    <input type="text" name="login" v-model="form.register.login">
+                                </label>
+                            </li>
+
+                            <li class="half">
+                                <label>
+                                    First name
+                                    <input type="text" name="firstname" v-model="form.register.firstname">
+                                </label>
+                            </li>
+
+                            <li class="half">
+                                <label>
+                                    Last name
+                                    <input type="text" name="lastname" v-model="form.register.lastname">
+                                </label>
+                            </li>
+
+                            <li>
+                                <label>
+                                    E-mail
+                                    <input type="email" name="email" v-model="form.register.email">
+                                </label>
+                            </li>
+                        
+                            <li class="half">
+                                <label>
+                                    Password
+                                    <input type="password" name="password" v-model="form.register.pass">
+                                </label>
+                            </li>
+
+                            <li class="half">
+                                <label>
+                                    Repeat password
+                                    <input type="password" name="password2" v-model="form.register.pass2">
+                                </label>
+                            </li>
+                            
+                            <li>
+                                <button class="btn" type="button" v-on:click="register()">Register</button>
+                            </li>
+                        
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="content" v-else>
+
+                    <div class="box">
+                        <p class="slogan">Hello, Username.</p>
+
+                        <button class="btn" type="button" v-on:click="logOut()">Logout</button>
+
+                        <p class="tip">Drop up to 10 your pictures and send to create animation.</p>
+
+                        <svg class="icon"><use href="icons.defs.svg#i-import"></use></svg>
+
+                        <input type="file" @change="filesChanged" multiple/>
+
+                        <button class="btn" type="button" v-on:click="sendOrder()">Send order</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+
+                <div class="copyright">2019 © Ja</div>
+                <div class="promo">
+                    <a href="https://github.com/uek-pro/wpc-project-frontend">
+                        <svg class="icon"><use href="icons.defs.svg#i-github"></use></svg>
+                        <span>View on GitHub</span>
+                    </a>
+                </div>
+                
+            </div>
+
+            <div class="dev">
+                <button v-on:click="listAll()">List content!</button>
+                <button v-on:click="sendMail()">Test send mail!</button>
+            </div>
+
         </div>
-        
-        <script src="main.bundle.js"></script>
 
     </body>
 </html>

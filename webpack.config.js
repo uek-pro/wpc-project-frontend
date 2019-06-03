@@ -28,7 +28,7 @@ module.exports = {
         }
     },
     plugins: [
-        new CopyWebpackPlugin(['index.html', 'main.css']),
+        new CopyWebpackPlugin(['index.html', 'main.css', 'main.css.map', 'icons.defs.svg']),
         new webpack.HotModuleReplacementPlugin()
     ]
 };

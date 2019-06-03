@@ -1,9 +1,11 @@
 {
-  "name": "sample-js-app",
+  "name": "animation-creator-spa-app",
   "version": "1.0.0",
+  "author": "danbraj",
   "dependencies": {
     "amazon-cognito-identity-js": "^3.0.9",
     "aws-sdk": "^2.419.0",
+    "uuid": "^3.3.2",
     "vue": "^2.6.10"
   },
   "devDependencies": {

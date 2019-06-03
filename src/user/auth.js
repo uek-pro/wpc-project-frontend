@@ -31,6 +31,13 @@ export default class AuthFacade {
         });
     }
 
+    logOut() {
+        const cognitoUser = this.userPool.getCurrentUser();
+        if (cognitoUser != null) {
+            cognitoUser.signOut();
+        }
+    }
+
     register(request) {
 
         this.userPool.signUp(
@@ -98,7 +105,17 @@ export default class AuthFacade {
                 console.error(error);
             } else {
                 console.log('Successfully logged!');
-                successCallback(this.creds);
+
+                cognitoUser.getUserAttributes((err, res) => {
+
+                    if (err) {
+                        alert(err);
+                        return;
+                    }
+
+                    const email = res.find(x => x.Name === 'email').Value;
+                    successCallback(email);
+                })
             }
         });
     }

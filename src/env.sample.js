@@ -7,6 +7,7 @@ const poolData = {
     UserPoolId: '',
     ClientId: ''
 };
+const animationApiGatewayUrl = '';
 
 export {
     region,
@@ -14,5 +15,6 @@ export {
     loginProviderName,
     poolData,
     bucketRegion,
-    bucketName
+    bucketName,
+    animationApiGatewayUrl
 }
