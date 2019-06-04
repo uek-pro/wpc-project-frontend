@@ -22,19 +22,15 @@
                     <p class="slogan">Create beautiful animations with the Animation Creator program.</p>
                 </div>
 
-                <div class="mascot">    
-
-                </div>
-
             </div>
 
             <div class="main">
 
-                <div class="flash" v-if="user.isFlashMessage">
-                    <svg class="icon"><use href="icons.defs.svg#i-info"></use></svg>
-                    <span class="flash__message">Wykonano pomyślnie</span>
-                    <a v-on:click="closeFlashMessage()">
-                        <div class="icon-btn icon-btn--checkbox">
+                <div class="flash" v-if="user.flashMessage != ''">
+                    <svg class="flash__icon icon"><use href="icons.defs.svg#i-info"></use></svg>
+                    <span class="flash__message" v-text="user.flashMessage"></span>
+                    <a class="flash__close" v-on:click="closeFlashMessage()">
+                        <div class="icon-btn icon-btn--important">
                             <svg class="icon-btn__icon"><use href="icons.defs.svg#i-close"></use></svg>
                         </div>
                     </a>
@@ -137,10 +133,13 @@
                 </div>
                 <div class="content" v-else>
 
-                    <div class="box">
-                        <p class="slogan">Hello, Username.</p>
+                    <div class="box files-upload-section">
 
-                        <button class="btn" type="button" v-on:click="logOut()">Logout</button>
+                        <div class="flex">
+                            <p class="slogan" v-text="greeting"></p>
+
+                            <button class="btn" type="button" v-on:click="logOut()">Logout</button>
+                        </div>
 
                         <p class="tip">Drop up to 10 your pictures and send to create animation.</p>
 
@@ -168,8 +167,7 @@
             </div>
 
             <div class="dev">
-                <button v-on:click="listAll()">List content!</button>
-                <button v-on:click="sendMail()">Test send mail!</button>
+                <button v-on:click="testLogIn()">Test login</button>
             </div>
 
         </div>

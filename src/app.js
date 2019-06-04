@@ -2,11 +2,9 @@ import AWS from 'aws-sdk';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import Vue from 'vue';
 
-import { poolData, identityPoolId, region, bucketRegion, bucketName, animationApiGatewayUrl } from './env.js';
+import { poolData, identityPoolId, region, bucketRegion, bucketName } from './env.js';
 import AuthFacade from './user/auth';
 import Order from './user/order.js';
-
-const uuidv4 = require('uuid/v4');
 
 
 const userPool = new CognitoUserPool(poolData);
@@ -59,8 +57,9 @@ new Vue({
         user: {
             isLoggedIn: false,
             isCodeRequired: false,
-            isFlashMessage: true,
+            flashMessage: '',
             email: '',
+            fullname: ''
         },
 
         form: {
@@ -87,20 +86,50 @@ new Vue({
 
         fullname: function() {
             return `${this.form.register.firstname} ${this.form.register.lastname}`;
-        }
+        },
+
+        greeting: function() {
+            return this.user.fullname == '' ? 'Hello' : `Hello, ${this.user.fullname}.`;
+        },
 
     },
 
     methods: {
 
         register: function() {
-            auth.register(registerRequest)
+            if (this.form.register.pass == this.form.register.pass2) {
+                auth.register({
+                    username: this.form.register.login,
+                    password: this.form.register.pass,
+                    name: this.fullname,
+                    email: this.form.register.email
+                }, username => {
+                    this.form.login.login = username
+                }, err => this.user.flashMessage = err)
+            } else {
+                this.user.flashMessage = 'Hasła się nie zgadzają.';
+            }
         },
 
         logIn: function() {
-            auth.logIn(loginRequest, email => {
+            auth.logIn({
+                username: this.form.login.login,
+                password: this.form.login.pass
+            }, (email, fullname) => {
                 this.user.isLoggedIn = true,
                 this.user.email = email;
+                this.user.fullname = fullname;
+            }, (err, needConfirm) => {
+                this.user.flashMessage = err;
+                this.user.isCodeRequired = needConfirm;
+            })
+        },
+
+        testLogIn: function() {
+            auth.logIn(loginRequest, (email, fullname) => {
+                this.user.isLoggedIn = true,
+                this.user.email = email;
+                this.user.fullname = fullname;
             });
         },
 
@@ -111,17 +140,12 @@ new Vue({
         },
 
         confirm: function() {
-            auth.confirm(confirmRequest);
-        },
-
-        listAll: function() {
-            s3.listObjects({}, (err, data) => {
-                if (err) {
-                    alert(err.message);
-                } else {
-                    console.log(data.Contents.map(item => item.Key));
-                }
-            });
+            auth.confirm({
+                username: this.form.login.login,
+                code: this.form.login.code
+            }, () => {
+                this.user.isCodeRequired = false;
+            }, err => this.user.flashMessage = err);
         },
 
         filesChanged(e) {
@@ -131,78 +155,28 @@ new Vue({
 
         sendOrder() {
 
-            // const order = new Order(
-            //     s3,
-            //     auth.getIdentityId(),
-            //     this.user.email,
-            //     this.files
-            // );
-            // order.send();
-
-            const timestamp = Date.now();
-            const email = this.user.email;
-
-            const user = auth.getIdentityId();
-            const path = `uek-krakow/${user}/${timestamp}/`;
-
-            const promises = [];
-            for (let i = 0; i < this.files.length; i++) {
-                const file = this.files[i];
-                
-                promises.push(
-                    new Promise((resolve, reject) => {
-
-                        s3.putObject({
-                            Key: `${path}${file.name}`,
-                            ContentType: file.type,
-                            Body: file
-                        }, (err, data) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            else {
-                                resolve(data);
-                            }
-                        })
-
-                        // resolve('ok');
-                    })
-                )
-            }
-
-            Promise.all(promises).then((values) => {
-
-                console.log('Wysłano pomyślnie!');
-                
-                const order_id = uuidv4();
-                const photos = this.files.map(x => `${path}${x.name}`)
-
-                const orderRequest = {
-                    order_id,
-                    email,
-                    photos
-                }
-                console.log(orderRequest);
-                
-                fetch(animationApiGatewayUrl, {
-                    method: 'post',
-                    body: JSON.stringify(orderRequest),
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.text()) // response pusty
-                .then(response => {
-
-                    console.log(response);
-                })
-            })
+            const order = new Order(
+                s3,
+                auth.getIdentityId(),
+                this.user.email,
+                this.files
+            );
+            order.send();
         },
 
         closeFlashMessage() {
-            this.user.isFlashMessage = false;
-        }
+            this.user.flashMessage = '';
+        },
+
+        // listAll: function() {
+        //     s3.listObjects({}, (err, data) => {
+        //         if (err) {
+        //             alert(err.message);
+        //         } else {
+        //             console.log(data.Contents.map(item => item.Key));
+        //         }
+        //     });
+        // },
 
     },
 

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-author="danb.pl" width="182" height="182">
+
+<style>
+.body{transform-origin:75.469px 97.718px;animation: rotate-body 8s infinite cubic-bezier(0.55, 0.055, 0.675, 0.19);}
+.head{}
+.leg{fill:#e8d900}
+.iris{fill:#0080ff}
+.pupil{fill:#fff}
+.mouth{transform-origin: 0 120px;animation: move-mouth 4s infinite linear;}
+.iris,.pupil{animation-duration: 10s; animation-iteration-count: infinite;}
+.iris{animation-name:blink-eyes-iris;}
+.pupil{animation-name:blink-eyes-pupil;}
+
+@keyframes blink-eyes-iris { 
+    0%, 90% { fill: #0080ff }
+    91%, 93% { fill: gray }
+    94%, 96% { fill: #0080ff }
+    97%, 98% { fill: gray }
+    99%, 100% { fill: #0080ff }
+}
+@keyframes blink-eyes-pupil { 
+    0%, 90% { fill: #fff }
+    91%, 93% { fill: gray }
+    94%, 96% { fill: #fff }
+    97%, 98% { fill: gray }
+    99%, 100% { fill: #fff }
+}
+@keyframes move-mouth { 
+    0%, 90% { transform: scaleY(1); }
+    91%, 95% { transform: scaleY(0.8); }
+    96%, 100% { transform: scaleY(1); }
+}
+@keyframes rotate-body { 
+     0%, 33% { transform: rotate(0); }
+    34%, 66% { transform: rotate(10deg); }
+    67%,100% { transform: rotate(0deg); }
+}
+</style>
+
+<g class="ball">
+
+<path class="body" fill="#333" d="M91 0a78.52 78.52 0 0 0-78.52 78.52 78.52 78.52 0 0 0 .937 11.664A62.557 62.557 0 0 1 75.468 35.16a62.557 62.557 0 0 1 62.556 62.556 62.557 62.557 0 0 1-42.463 59.161 78.52 78.52 0 0 0 73.958-78.359A78.52 78.52 0 0 0 91 0z" />
+
+<circle class="head" fill="#ececec" cx="75.469" cy="97.718" r="53.895"/>
+
+<circle class="eye eyelid right" cx="98.038" cy="83.504" r="16.203"/>
+<circle class="eye iris right" cx="94.86" cy="87.708" r="8.102"/>
+<circle class="eye pupil right" cx="93.124" cy="90.312" r="3.617"/>
+
+<circle class="eye eyelid left" cx="47.698" cy="83.504" r="12.152"/>
+<circle class="eye iris left" cx="45.314" cy="86.657" r="6.076"/>
+<circle class="eye pupil left" cx="44.012" cy="88.61" r="2.713"/>
+
+<path class="mouth" fill="#d3bc5f" d="M76.517 115.316c2.828 1.072 2.654 8.08-3.117 12.582-5.137 4.007-13.621 8.08-24.472 4.156 9.927-2.078 13.39-12.005 18.354-13.275-3.81-1.732-8.542-16.623-16.276-21.01 18.238-1.153 26.607 15.089 25.51 17.547z"/>
+
+</g>
+
+<path class="leg left" fill="#e8d900" d="M62.767 158.722A16.295 23.278 0 0 0 46.473 182h32.59a16.295 23.278 0 0 0-16.296-23.278z"/>
+<path class="leg right" fill="#e8d900" d="M119.233 158.722A16.295 23.278 0 0 0 102.938 182h32.59a16.295 23.278 0 0 0-16.295-23.278z"/>
+
+</svg>

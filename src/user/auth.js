@@ -9,7 +9,7 @@ export default class AuthFacade {
         this.creds = creds;
     }
 
-    logIn(request, successCallback) {
+    logIn(request, successCallback, errorCallback) {
 
         const authenticationDetails = new AuthenticationDetails({
             Username: request.username,
@@ -26,7 +26,9 @@ export default class AuthFacade {
                 this.refreshCredentials(successCallback);
             },
             onFailure: (err) => {
-                alert(err);
+                console.log(err);
+                errorCallback(err.message, err.code == 'UserNotConfirmedException' ? true : false);
+                // alert(err);
             }
         });
     }
@@ -38,7 +40,7 @@ export default class AuthFacade {
         }
     }
 
-    register(request) {
+    register(request, successCallback, errorCallback) {
 
         this.userPool.signUp(
             request.username,
@@ -56,16 +58,17 @@ export default class AuthFacade {
             null,
             (err, result) => {
                 if (err) {
-                    alert(err.message);
                     console.log(err);
+                    errorCallback(err.message);
                     return;
                 }
                 console.log(`Udało się. Username: ${result.user.getUsername()}`);
+                successCallback(result.user.getUsername());
             }
         );
     }
 
-    confirm(request) {
+    confirm(request, successCallback, errorCallback) {
 
         const cognitoUser = new CognitoUser({
             Username: request.username,
@@ -77,10 +80,11 @@ export default class AuthFacade {
             true, 
             (err, result) => {
                 if (err) {
-                    alert(err);
+                    console.log(err);
+                    errorCallback(err.message);
                     return;
                 }
-                alert(result);
+                successCallback();
         });
     }
 
@@ -114,7 +118,8 @@ export default class AuthFacade {
                     }
 
                     const email = res.find(x => x.Name === 'email').Value;
-                    successCallback(email);
+                    const fullname = res.find(x => x.Name === 'name').Value;
+                    successCallback(email, fullname);
                 })
             }
         });

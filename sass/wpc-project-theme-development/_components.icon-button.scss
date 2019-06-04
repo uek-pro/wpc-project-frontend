@@ -1,0 +1,48 @@
+.icon-btn {
+
+    box-sizing: border-box;
+    margin: 4px 2px;
+    padding: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    cursor: pointer;
+    // background-color: red;
+    background-color: transparent;
+
+    &__icon {
+        @extend %icon;
+        width: 26px;
+        height: 26px;
+        vertical-align: middle;
+        pointer-events: none;
+    }
+
+    &:hover {
+        background-color: $primary-color;
+        color: #fff;
+    }
+
+    &--important {
+        color: $error-color;
+        border-color: $error-color;
+
+        &:hover {
+            background-color: $error-color;
+        }
+    }
+
+    &--small {
+        margin: 8px 6px;
+        width: 36px;
+        height: 36px;
+
+        .icon-btn__icon {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}

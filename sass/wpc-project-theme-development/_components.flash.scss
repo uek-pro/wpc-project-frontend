@@ -1,8 +1,20 @@
 .flash {
 
     color: $error-color;
+    display: flex;
+    padding: .4rem;
+    border: 2px solid $error-color;
 
     &__message {
+        font-size: .8rem;
+        margin-left: 1rem;
+    }
 
+    &__close {
+        margin-left: auto;
+    }
+
+    &__icon {
+        flex: 0 0 26px;
     }
 }
